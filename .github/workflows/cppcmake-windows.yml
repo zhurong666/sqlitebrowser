@@ -140,6 +140,14 @@ jobs:
           } else {
             mv DB.Browser.for.SQLite-*.msi "DB.Browser.for.SQLite-dev-$(git rev-parse --short HEAD)-${{ matrix.arch }}.msi"
           }
+          
+      - if: github.event_name != 'pull_request'
+        name: Upload MSI artifact for direct download
+        uses: actions/upload-artifact@v4
+        with:
+          name: DB.Browser.for.SQLite-${{ matrix.arch }}-unsigned
+          path: installer/windows/DB.Browser.for.SQLite-*.msi
+          retention-days: 30
 
       - if: github.event_name != 'pull_request'
         name: Upload artifacts for code signing with SignPath
